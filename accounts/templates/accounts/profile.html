@@ -1,0 +1,11 @@
+{% extends 'base.html' %} 
+{% block title %} 
+{{request.user.username}} profile 
+{% endblock title %} 
+
+{% block content %}
+<h1 class="">name : {{request.user.username}}</h1>
+<a href="{% url 'accounts:logout' %}">
+  <button class="button is-danger">logout</button>
+</a>
+{% endblock content %}

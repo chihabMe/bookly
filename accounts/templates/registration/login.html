@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block title %} login
+{% endblock title %} {% block content %}
+<main class="login-page">
+  <form method="post" class="login-form">
+    {% csrf_token %} {{form |crispy}}
+    <button class="button is-primary">login</button>
+    <input type="hidden" name="next" vaue="{{next}}">
+  </form>
+</main>
+
+{% endblock content %}
