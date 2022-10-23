@@ -61,7 +61,7 @@ ROOT_URLCONF = 'core.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/"templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -139,6 +139,6 @@ CRISPY_TEMPLATE_PACK = "bulma"
 
 
 ##REDIRECT 
-LOGIN_REDIRECT_URL = "profile"
-LOGIN_URL = "login"
-LOGOUT_URL = "logout"
+LOGIN_REDIRECT_URL = "accounts:profile"
+LOGIN_URL = "accounts:login"
+LOGOUT_URL = "accounts:logout"

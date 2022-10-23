@@ -4,6 +4,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib import messages
 
 from .forms import LoginForm
 
@@ -28,8 +30,12 @@ def logout_view(request):
     logout(request)
     return redirect(reverse("accounts:login"))
      
-
 @login_required
 def profile_view(request):
     context = {}
     return render(request,"accounts/profile.html",context)
+
+class CustomPasswordChangeView(PasswordChangeView):
+    def form_valid(self,form):
+        messages.success(self.request,"you password has been changed")
+        return super().form_valid(form)
