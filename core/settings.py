@@ -160,3 +160,8 @@ ANYMAIL = {
     }
 
 DEFAULT_FROM_EMAIL = 'jobly@email.com'
+
+
+#media files 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR  / "media/"
