@@ -147,8 +147,16 @@ LOGOUT_URL = "accounts:logout"
 # MAIL_API_KEY = os.getenv("MAIL_API_KEY")
 # MAIL_SECRET_KEY = os.getenv("MAIL_SECRET_KEY")
 #email settings
-EMAIL_HOST="smtp.gmail.com"
-EMAIL_HOST_PASSWORD=os.getenv("EMAIL_PASSWORD")
-EMAIL_HOST_USER=os.getenv("EMAIL_USER")
-EMAIL_USE_TLS=True
-EMAIL_POST=587
+
+# EMAIL_HOST="smtp.gmail.com"
+# EMAIL_HOST_PASSWORD=os.getenv("EMAIL_PASSWORD")
+# EMAIL_HOST_USER=os.getenv("EMAIL_USER")
+# EMAIL_USE_TLS=True
+# EMAIL_POST=587
+EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
+ANYMAIL = {
+    "MAILJET_API_KEY": os.getenv('MAIL_API_KEY'),
+    "MAILJET_SECRET_KEY": os.getenv('MAIL_SECRET_KEY'),
+    }
+
+DEFAULT_FROM_EMAIL = 'jobly@email.com'

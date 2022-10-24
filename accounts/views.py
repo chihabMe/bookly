@@ -8,7 +8,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib import messages
 
 from helpes.email_generator import email_generator
-from .forms import LoginForm
+from .forms import LoginForm,UserCreationForm
 
 
 def login_view(request):
@@ -31,20 +31,20 @@ def logout_view(request):
      
 @login_required
 def profile_view(request):
-    from_={}
-    to_={}
-    from_["email"]="chihab.mg.me@email.com"
-    from_["name"]="chihab"
-    to_["email"]="chihab.mg.me@gmail.com"
-    to_["name"]:"admin"
-    subject = 'hello world'
-    text ='hello world message'
-    html   = """
-    <h1> hello world </h1>
-    """ 
-
     context = {}
     return render(request,"accounts/profile.html",context)
+
+def register_view(request):
+    form = UserCreationForm(request.POST or None)
+    if request.method=="POST":
+        if form.is_valid():
+            user = form.save()
+            return redirect(reverse("accounts:login"))
+    context = {
+        "form":form,
+    }
+    return render(request,"registration/register.html",context)
+
 
 class CustomPasswordChangeView(PasswordChangeView):
     def form_valid(self,form):

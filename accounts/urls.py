@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 from django.urls import path
-from .views import login_view, logout_view, profile_view,CustomPasswordChangeView
+from .views import login_view, logout_view, profile_view,CustomPasswordChangeView, register_view
 from django.contrib.auth.views import LoginView,PasswordResetView,PasswordResetDoneView,PasswordResetCompleteView,PasswordResetConfirmView
 from django.urls import reverse_lazy
 
@@ -11,6 +11,7 @@ app_name = 'accounts'
 urlpatterns = [
     #path("login/", login_view, name='login'),
     path("login/",LoginView.as_view(),name='login'),
+    path("register/",register_view,name='register'),
     path("logout/",logout_view,name='logout'),
     path("profile/",profile_view,name='profile'),
     ##change password 
