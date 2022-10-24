@@ -10,12 +10,17 @@ def upload_to(instance,filename):
     return "profile/"+instance.user.username+"/"+filename
 
 class Profile(models.Model):
-    user = models.OneToOneField(User,unique=True,on_delete=models.CASCADE)
+    user = models.OneToOneField(User,unique=True,on_delete=models.CASCADE,related_name='profile')
     image = models.ImageField(upload_to=upload_to,blank=True,null=True)
     date_of_birth = models.DateTimeField(blank=True,null=True)
 
     def __str__(self) -> str:
         return self.user.username 
+    
+    def get_image_absolute_url(self):
+        if self.image:
+            return self.image.url
+        return None
 
 @receiver(post_save,sender=User)
 def create_profile(instance,created,*args, **kwargs):

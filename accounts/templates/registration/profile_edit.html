@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block title %} profile edit
+{% endblock title %} {% block content %}
+<main class="login-page">
+  <form method="post" class="login-form" enctype="multipart/form-data">
+    {% csrf_token %} 
+    {{  profile_form | crispy }}
+    <div class="file">
+        <label class="file-label">
+            {{profile_form.image}}
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose  an iamge
+            </span>
+          </span>
+        </label>
+      </div>
+    {{user_form |crispy}}
+    <button class="button is-primary">save</button>
+    <input type="hidden" name="next" vaue="{{next}}">
+    <a href="{% url 'accounts:password_reset' %}">reset my password</a>
+  </form>
+
+</main>
+
+{% endblock content %}

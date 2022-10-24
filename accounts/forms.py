@@ -5,6 +5,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm as f
 from django.contrib.auth.password_validation import validate_password 
+from .models import Profile
 
 User = get_user_model()
 
@@ -38,6 +39,19 @@ class UserCreationForm(forms.ModelForm):
             user.save()
         return user
 
-    
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ["date_of_birth","image"]
+
+    def __init__(self,*args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['date_of_birth'].widget=forms.DateInput(attrs={"class":"input is-primary","type":"date"})
+        self.fields['image'].widget=forms.FileInput(attrs={"name":"resume","class":"file-input","type":"file"})
+class UserEditForm(forms.ModelForm):
+    class Meta:
+        model = User 
+        fields = ["first_name","last_name"]
 
 

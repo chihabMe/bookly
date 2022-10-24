@@ -4,9 +4,14 @@
 {% endblock title %} 
 
 {% block content %}
+<img src="{{profile.get_image_absolute_url}}" width='200px' height='200px' alt="">
 <h1 class="">name : {{request.user.username}}</h1>
-<a href="{% url 'accounts:logout' %}">
-  <button class="button is-danger">logout</button>
+<h1 class="">email : {{request.user.email}}</h1>
+<h1 class="">first name : {{request.user.first_name}}</h1>
+<h1 class="">last name : {{request.user.last_name}}</h1>
+<h1 class=""> date of birth : {{profile.date_of_birth}}</h1>
+<a href="{% url 'accounts:profile_edit' %}">
+  <button class="button is-wraning"> edit profile </button>
 </a>
 <a href="{% url 'accounts:password_change' %}">
   <button class="button is-info">change password</button>

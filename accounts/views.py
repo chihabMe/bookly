@@ -8,7 +8,7 @@ from django.contrib.auth.views import PasswordChangeView
 from django.contrib import messages
 
 from helpes.email_generator import email_generator
-from .forms import LoginForm,UserCreationForm
+from .forms import LoginForm, ProfileEditForm,UserCreationForm, UserEditForm
 
 
 def login_view(request):
@@ -31,8 +31,26 @@ def logout_view(request):
      
 @login_required
 def profile_view(request):
-    context = {}
+
+    context = {
+        "profile":request.user.profile
+    }
     return render(request,"accounts/profile.html",context)
+def profile_edit_view(request):
+    profile_form = ProfileEditForm(instance=request.user.profile)
+    user_form = UserEditForm(instance=request.user)
+    if request.method=="POST":
+        profile_form = ProfileEditForm(instance=request.user.profile,data=request.POST  , files=request.FILES  )
+        user_form = UserEditForm(instance=request.user,data=request.POST)
+        if profile_form.is_valid() and user_form.is_valid():
+            profile_form.save()
+            user_form.save()
+            return redirect(reverse("accounts:profile"))
+    context = {
+        "profile_form":profile_form,
+        "user_form":user_form
+    }
+    return render(request,"registration/profile_edit.html",context)
 
 def register_view(request):
     form = UserCreationForm(request.POST or None)
@@ -45,8 +63,8 @@ def register_view(request):
     }
     return render(request,"registration/register.html",context)
 
-
 class CustomPasswordChangeView(PasswordChangeView):
     def form_valid(self,form):
         messages.success(self.request,"you password has been changed")
         return super().form_valid(form)
+
