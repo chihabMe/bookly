@@ -5,7 +5,9 @@
     {% csrf_token %} {{form |crispy}}
     <button class="button is-primary">login</button>
     <input type="hidden" name="next" vaue="{{next}}">
+    <a href="{% url 'accounts:password_reset' %}">reset my password</a>
   </form>
+
 </main>
 
 {% endblock content %}

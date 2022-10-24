@@ -7,9 +7,8 @@ from django.urls import reverse
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib import messages
 
+from helpes.email_generator import email_generator
 from .forms import LoginForm
-
-# Create your views here.
 
 
 def login_view(request):
@@ -32,6 +31,18 @@ def logout_view(request):
      
 @login_required
 def profile_view(request):
+    from_={}
+    to_={}
+    from_["email"]="chihab.mg.me@email.com"
+    from_["name"]="chihab"
+    to_["email"]="chihab.mg.me@gmail.com"
+    to_["name"]:"admin"
+    subject = 'hello world'
+    text ='hello world message'
+    html   = """
+    <h1> hello world </h1>
+    """ 
+
     context = {}
     return render(request,"accounts/profile.html",context)
 

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -142,3 +143,12 @@ CRISPY_TEMPLATE_PACK = "bulma"
 LOGIN_REDIRECT_URL = "accounts:profile"
 LOGIN_URL = "accounts:login"
 LOGOUT_URL = "accounts:logout"
+#mail jet 
+# MAIL_API_KEY = os.getenv("MAIL_API_KEY")
+# MAIL_SECRET_KEY = os.getenv("MAIL_SECRET_KEY")
+#email settings
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_HOST_PASSWORD=os.getenv("EMAIL_PASSWORD")
+EMAIL_HOST_USER=os.getenv("EMAIL_USER")
+EMAIL_USE_TLS=True
+EMAIL_POST=587
