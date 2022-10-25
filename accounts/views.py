@@ -45,6 +45,7 @@ def profile_edit_view(request):
         if profile_form.is_valid() and user_form.is_valid():
             profile_form.save()
             user_form.save()
+            messages.success(request,"your profile has been updated successfully")
             return redirect(reverse("accounts:profile"))
     context = {
         "profile_form":profile_form,

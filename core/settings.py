@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import os 
+import os
+from telnetlib import AUTHENTICATION
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-ei)nzvhn((#p-^_0k+kz8p+07l$*&0n&_uexnd*hh$34&wr-xs
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["bookly.com",'localhost','127.0.0.1']
 
 # Application definition
 
@@ -38,11 +39,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #local
-    #3d parites
+    'django.contrib.sites',
+    # local
+    # 3d parites
     "crispy_forms",
     "crispy_bulma",
     "django_browser_reload",
+    # auth
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+
+    ##https
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    #added middlewares
+    # added middlewares
     "django_browser_reload.middleware.BrowserReloadMiddleware",
 ]
 
@@ -125,28 +137,33 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS =[BASE_DIR / "static"]
+STATICFILES_DIRS = [BASE_DIR / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#crispy forms settings
+# crispy forms settings
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = ("bulma", )
 
 CRISPY_TEMPLATE_PACK = "bulma"
 
 
-##REDIRECT 
+# REDIRECT
 LOGIN_REDIRECT_URL = "accounts:profile"
 LOGIN_URL = "accounts:login"
 LOGOUT_URL = "accounts:logout"
-#mail jet 
+# Authentication backends
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend",
+                           "accounts.authentication.EmailAuthBackend",
+                           "allauth.account.auth_backends.AuthenticationBackend"
+                           ]
+# mail jet
 # MAIL_API_KEY = os.getenv("MAIL_API_KEY")
 # MAIL_SECRET_KEY = os.getenv("MAIL_SECRET_KEY")
-#email settings
+# email settings
 
 # EMAIL_HOST="smtp.gmail.com"
 # EMAIL_HOST_PASSWORD=os.getenv("EMAIL_PASSWORD")
@@ -157,11 +174,37 @@ EMAIL_BACKEND = "anymail.backends.mailjet.EmailBackend"
 ANYMAIL = {
     "MAILJET_API_KEY": os.getenv('MAIL_API_KEY'),
     "MAILJET_SECRET_KEY": os.getenv('MAIL_SECRET_KEY'),
-    }
+}
 
 DEFAULT_FROM_EMAIL = 'jobly@email.com'
 
 
-#media files 
+# media files
 MEDIA_URL = 'media/'
-MEDIA_ROOT = BASE_DIR  / "media/"
+MEDIA_ROOT = BASE_DIR / "media/"
+
+
+SITE_ID = 2
+
+# Provider specific settings
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'METHOD': 'oauth2',
+        'SCOPE': ['email', 'public_profile', 'user_friends'],
+        'AUTH_PARAMS': {'auth_type': 'reauthenticate'},
+        'INIT_PARAMS': {'cookie': True},
+        'FIELDS': [
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'link',
+            'gender',
+        ],
+        'EXCHANGE_TOKEN': True,
+        'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': False,
+        'VERSION': 'v2.12',
+    },
+}

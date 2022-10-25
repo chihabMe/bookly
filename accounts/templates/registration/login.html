@@ -1,12 +1,22 @@
 {% extends 'base.html' %} {% load crispy_forms_tags %} {% block title %} login
+{% load socialaccount %}
+{% providers_media_js %}
 {% endblock title %} {% block content %}
 <main class="login-page">
   <form method="post" class="login-form">
     {% csrf_token %} {{form |crispy}}
     <button class="button is-primary">login</button>
+    <a class="button is-secondary" href="{% url 'accounts:register' %}">register</a>
     <input type="hidden" name="next" vaue="{{next}}">
     <a href="{% url 'accounts:password_reset' %}">reset my password</a>
+    <div class="buttons is-flex is-justify-content-space-around">
+    <a class="button is-primary is-rounded"  href="{% provider_login_url "facebook" %}">Twitter</a>
+    <a class="button is-primary is-rounded" href="{% provider_login_url "facebook" %}">Twitter</a>
+    <a class="button" href="{% provider_login_url "facebook" method="js_sdk" %}">Login Button image</a>
+    </div>
   </form>
+  <div>
+  </div>
 
 </main>
 

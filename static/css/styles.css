@@ -10282,7 +10282,13 @@ a.has-text-danger-dark:hover, a.has-text-danger-dark:focus {
 }
 
 body {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(245, 245, 245) !important;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 .container {
@@ -10302,8 +10308,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  padding: 1rem;
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.5rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 400px;
   margin: 0 auto;
 }
 
