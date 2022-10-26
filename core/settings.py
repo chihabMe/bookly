@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # local
+    "books",
     # 3d parites
     "crispy_forms",
     "crispy_bulma",
@@ -208,3 +209,5 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v2.12',
     },
 }
+
+

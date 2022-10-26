@@ -1,13 +1,16 @@
-{% extends 'base.html' %} {% load crispy_forms_tags %} {% block title %} register
-{% endblock title %} {% block content %}
+{% extends 'base.html' %} {% load crispy_forms_tags %} {% block title %}
+register {% endblock title %} {% block content %}
 <main class="login-page">
-  <form method="post" class="login-form">
-    {% csrf_token %} {{form |crispy}}
-    <button class="button is-primary">reigster</button>
-    <input type="hidden" name="next" vaue="{{next}}">
-    <a class="button is-secondary" href="{% url 'accounts:login' %}">login</a>
-  </form>
-
+  <div class="login-container">
+    <form method="post" class="login-form">
+      {% csrf_token %} {{form |crispy}}
+      <button class="button is-primary">reigster</button>
+      <input type="hidden" name="next" vaue="{{next}}" />
+      <a class="button is-secondary" href="{% url 'accounts:login' %}">login</a>
+    </form>
+    <h1 class="capitalize">or use</h1>
+    <div class="buttons flex is-flex-col">{% include "social.html" %}</div>
+  </div>
 </main>
 
 {% endblock content %}
