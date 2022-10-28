@@ -59,11 +59,16 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    ##tailwind 
+    # 'tailwind',
+    # 'theme',
+
     ##services
     'cloudinary_storage',
     'cloudinary',
     ##https
     'django_extensions',
+    'compressor'
 ]
 
 MIDDLEWARE = [
@@ -225,6 +230,18 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.getenv("CLOUDINARY_SECRET") 
 }
 
+#tailwind css 
+
+# TAILWIND_APP_NAME = 'theme'
+# INTERNAL_IPS = [
+#     "127.0.0.1",
+# ]
+
+#composer settings 
+
+COMPRESS_ROOT = BASE_DIR / 'static'
+COMPRESS_ENABLED = True
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
 
 if os.getenv("DEVELOPMENT_MODE")=='false':
     from .production_settings import *

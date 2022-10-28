@@ -1,13 +1,47 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
+{% block title %} 
+books 
+{% endblock title %} 
 
-{% block title %}
-books
-{% endblock title %}
+{% block content %} 
 
-{% block content %}
-{% for book in books %}
-<div>
-    <a href="{{book.get_absolute_url}}">{{book.title}}</a>
+<div class="flex w-full  gap-4  justify-between ">
+
+<div class="bg-gray-100 rounded-md w-64  p-2 mt-5 flex flex-col gap-4  ">
+    <div class="w-full bg-gray-200 text-sky-700 py-3 rounded-md">
+    <h3 class=" capitalize font-medium ">catogories</h3>
+    </div>
+    <ul class="flex flex-col gap-1">
+        <li class="cursor-pointer hover:bg-gray-200 hover:text-sky-700 font-medium capitalize text-gray-700 px-2 py-1 rounded-md">algeria </li>
+        <li class="cursor-pointer hover:bg-gray-200 hover:text-sky-700 font-medium capitalize text-gray-700 px-2 py-1 rounded-md">algeria </li>
+        <li class="cursor-pointer hover:bg-gray-200 hover:text-sky-700 font-medium capitalize text-gray-700 px-2 py-1 rounded-md">algeria </li>
+        <li class="cursor-pointer hover:bg-gray-200 hover:text-sky-700 font-medium capitalize text-gray-700 px-2 py-1 rounded-md">algeria </li>
+        <li class="cursor-pointer hover:bg-gray-200 hover:text-sky-700 font-medium capitalize text-gray-700 px-2 py-1 rounded-md">algeria </li>
+        <li class="cursor-pointer hover:bg-gray-200 hover:text-sky-700 font-medium capitalize text-gray-700 px-2 py-1 rounded-md">algeria </li>
+    </ul>
+
 </div>
-{% endfor %}
+<div class="w-full max-w-screen-lg gap-2 items-center  flex flex-wrap ">
+
+{% for book in books %}
+
+<div class="max-w-sm hover:border   md:w-52 hover:shadow-md  hover:shadow-sky-400 hover:-translate-y-1   transition-all duration-200  bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+
+    <a href="#">
+        <img class="rounded-t-lg w-full md:h-56"  src="{{book.images.first.image.url}}" alt="{{book.images.first.alt}}" />
+    </a>
+    <div class="p-5 flex flex-col gap-1">
+        <a href="#">
+            <h5 class="mb-2 text-md font-bold tracking-tight text-gray-900 dark:text-white"> {{book.title}} </h5>
+        </a>
+
+        <h4 class="text-md text-gray-800 font-medium"> author steven king</h4>
+        <h4 class="text-md text-gray-800 font-medium">location biskra</h4>
+    </div>
+</div>
+{% endfor %} 
+
+</div>
+</div>
+
 {% endblock content %}
