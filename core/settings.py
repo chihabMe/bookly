@@ -14,16 +14,22 @@ from pathlib import Path
 import os
 from telnetlib import AUTHENTICATION
 
+# #cloudinary imports 
+# import cloudinary 
+# import cloudinary.uploader
+# import cloudinary.api
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
+  # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-ei)nzvhn((#p-^_0k+kz8p+07l$*&0n&_uexnd*hh$34&wr-xs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = True
 
 ALLOWED_HOSTS = ["bookly.com",'localhost','127.0.0.1']
@@ -53,7 +59,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
-
+    ##services
+    'cloudinary_storage',
+    'cloudinary',
     ##https
     'django_extensions',
 ]
@@ -209,5 +217,14 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v2.12',
     },
 }
+##cloudinary config 
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv("CLOUDINARY_NAME"),
+    'API_KEY': os.getenv("CLOUDINARY_KEY") ,
+    'API_SECRET': os.getenv("CLOUDINARY_SECRET") 
+}
 
 
+if os.getenv("DEVELOPMENT_MODE")=='false':
+    from .production_settings import *

@@ -1,7 +1,12 @@
 {% extends 'base.html' %} {% block title %} {{book.title}} {% endblock title %}
+{% load cloudinary %}
+
 {% block content %}
 <div>
-  <img src="{{book.images.first.image.url}}" alt="{{book.images.first.alt}}" />
+
+  {% if book.images.first %}
+  {% cloudinary book.images.first.image.name width=300 height=300  %}
+  {% endif %}
 
   {{book.title}} {{book.description}} {{book.price_in_dz}} {{book.price_as_str}}
   {% for image in books.images.all %}

@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from PIL import Image
 from accounts.models import Profile
+# from cloudinary.models import CloudinaryField
 
 
 # Create your models here.
@@ -35,6 +36,7 @@ class BookImage(models.Model):
     book = models.ForeignKey(Book,related_name="images",on_delete=models.CASCADE)
     alt = models.CharField(max_length=200,blank=True)
     image = models.ImageField(upload_to=upload_image_to)
+    # image = CloudinaryField("image")
     created = models.DateTimeField(auto_now_add=True)
 
     def save(self,*args, **kwargs):
@@ -42,12 +44,12 @@ class BookImage(models.Model):
             self.alt = slugify(self.image.name.split(".")[0])
         super().save(*args, **kwargs)
 
-        if self.image:
-            img = Image.open(self.image.path)
-            if img.width >550 or img.height>550:
-                size=(550,550)
-                img.thumbnail(size)
-                img.save(self.image.path)
+        # if self.image:
+        #     img = Image.open(self.image.path)
+        #     if img.width >550 or img.height>550:
+        #         size=(550,550)
+        #         img.thumbnail(size)
+        #         img.save(self.image.path)
 
     def __str__(self):
         return self.alt
