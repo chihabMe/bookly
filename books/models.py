@@ -1,10 +1,10 @@
-from audioop import reverse
 from email.policy import default
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from random import randint
+from django.urls import reverse
 from django.utils.text import slugify
 from PIL import Image
 from accounts.models import Profile
@@ -22,7 +22,7 @@ class Book(models.Model):
     
 
     def get_absolute_url(self):
-        return reverse("books:book_details", kwargs={"slug": self.slug})
+        return reverse("books:book_detail",kwargs={"slug": self.slug})
 
 
     def __str__(self)->str:
