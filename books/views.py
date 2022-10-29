@@ -1,4 +1,8 @@
+from email import message
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
+
+from common.decorators import hx_required
 
 from .models import Book
 from .forms import BookAddForm,BookImageForm
@@ -14,7 +18,8 @@ def books_list_view(request):
 def book_detail_view(request,slug):
     book = get_object_or_404(Book,slug=slug)
     context ={
-        'book':book
+        'book':book,
+        'liked':request.user.profile in book.likes.all()
     }
     return render(request,'books/detail.html',context)
 
@@ -46,3 +51,14 @@ def book_add_view(request):
     return render(request,'books/add.html',context)
 
 
+@hx_required
+def book_like(request,slug):
+    book = get_object_or_404(Book,slug=slug)
+    profile = request.user.profile
+    template = 'books/partials/like.html'
+    if profile in book.likes.all():
+        book.likes.remove(profile)
+    else:
+        book.likes.add(profile)
+        template = 'books/partials/dislike.html'
+    return render(request,template)

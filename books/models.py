@@ -20,6 +20,7 @@ class Book(models.Model):
     price_in_dz = models.PositiveIntegerField(default=0)
     price_as_str = models.CharField(max_length=150)
     owner  = models.ForeignKey(Profile,related_name='books',on_delete=models.CASCADE)
+    likes = models.ManyToManyField(Profile,related_name='liked_books')
     
 
     def get_absolute_url(self):

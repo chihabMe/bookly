@@ -1,16 +1,38 @@
-{% extends 'base.html' %} {% block title %} {{book.title}} {% endblock title %}
-{% load cloudinary %}
-
-{% block content %}
+{% extends 'base.html' %} 
+{% block title %} {{book.title}} {% endblock title %}
+{% block content  %}
 <div>
 
-  {% if book.images.first %}
-  {% cloudinary book.images.first.image.name width=300 height=300  %}
-  {% endif %}
-
-  {{book.title}} {{book.description}} {{book.price_in_dz}} {{book.price_as_str}}
+  <div>
+   {{book.title}}
+  </div>
+  <div>
+    {{book.description}} 
+  </div>
+  <div>
+    {{book.price_in_dz}}
+  </div>
+  <div>
+  {{book.price_as_str}} 
+  </div>
   {% for image in books.images.all %}
   <img src="{{image.image.url}}" alt="{{image.alt}}" />
-  {% endfor %}
+  {% endfor %} {% comment %} like add remove {% endcomment %}
+
+  {% comment %} <div data-slug="{{book.slug}}" x-data="{liked:('{{liked}}'=='True'),addLike(){
+  } }"  x-cloak> {% endcomment %}
+  <form
+      hx-post="{% url 'books:book_like' book.slug %}"
+      hx-target="#like-btns"
+      >
+      {% csrf_token %}
+  <div  id='like-btns'>
+      {% if liked %}
+      {% include 'books/partials/dislike.html' %}
+      {% else %}
+      {% include 'books/partials/like.html' %}
+      {% endif %}
+  </div>
+  </form>
 </div>
 {% endblock content %}
