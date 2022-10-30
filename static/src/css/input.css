@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800;900&display=swap');
+
+@layer base {
+  :root {
+    --color--text-base: #999999;
+    --color--text-title:#333333:
+    --color-secondary:teal;
+    --color-star:#f1de2b;
+    --color-primary: #f54747;
+    --bg-color:#EDE9E5;
+    --bg--light-color:#fff;
+  }
+}
