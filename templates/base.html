@@ -16,11 +16,14 @@
     [x-cloak] { display: none !important; }
     </style>
   </head>
+
   <body>
-    <div class="container mx-auto mt-4">
+    <div class='container max-w-screen-lg mx-auto'>
       {% include "header.html" %} 
-      {% block content %} {% endblock content %}
     </div>
+      {% block content %} 
+      
+      {% endblock content %}
 
     <script src="{% static 'src/js/main.js' %}" type='module' ></script>
     <script src="//unpkg.com/alpinejs" defer></script>

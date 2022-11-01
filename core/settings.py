@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     # local
     "books",
+    "actions",
     # 3d parites
     "crispy_forms",
     "crispy_bulma",

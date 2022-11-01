@@ -16,4 +16,15 @@
 <a href="{% url 'accounts:password_change' %}">
   <button class="button is-info">change password</button>
 </a>
+
+                    <form method="post"  hx-target="#follow-btns-{{profile.user.username}}"  hx-post="{% url 'accounts:profile_follow' profile.user.username %}"  >
+                        {% csrf_token %}
+                        <div id="follow-btns-{{profile.user.username}}">
+                        {% if  request.user.profile in  profile.followers.all %}
+                        {% include 'profile/partials/un_follow_btn.html' %}
+                        {% else %}
+                        {% include 'profile/partials/follow_btn.html' %}
+                        {% endif %}
+                        </div>
+                    </form>
 {% endblock content %}

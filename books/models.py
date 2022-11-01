@@ -57,6 +57,8 @@ class BookImage(models.Model):
 
 
 
+
+
 @receiver(pre_save,sender=Book)
 def generate_slug(instance,*args, **kwargs):
     if not instance.slug:

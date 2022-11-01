@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}
+profiles
+{% endblock title %}
+
+{% block content %}
+<div class=" w-full max-w-screen-lg mx-auto">
+    {% for profile in profiles %}
+    <div    class="inline-block   z-10 w-64 text-sm font-light text-gray-500 bg-white rounded-lg border border-gray-200 shadow-sm  transition-opacity duration-300 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+        <div class="p-3">
+            <div class="flex justify-between items-center mb-2">
+                <a href="{{profile.get_absolute_url}}">
+                    <img class="w-10 h-10 rounded-full" src="{{profile.get_image_absolute_url}}" alt="no iamge">
+                </a>
+                <div>
+                    <form method="post"  hx-target="#follow-btns-{{profile.user.username}}"  hx-post="{% url 'accounts:profile_follow' profile.user.username %}"  >
+                        {% csrf_token %}
+                        <div id="follow-btns-{{profile.user.username}}">
+                        {% if  request.user.profile in  profile.followers.all %}
+                        {% include 'profile/partials/un_follow_btn.html' %}
+                        {% else %}
+                        {% include 'profile/partials/follow_btn.html' %}
+                        {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
+                <a href="{{profile.get_absolute_url}}">{{profile.user.username}}</a>
+            </p>
+            <p class="mb-3 text-sm font-normal">
+                <a href="{{profile.get_absolute_url}}" class="hover:underline">{{profile.user.email}}</a>
+            </p>
+            <p class="mb-4 text-sm font-light"> {{profile.description}}   </p>
+            <ul class="flex text-sm font-light">
+                <li class="mr-2">
+                    <a href="#" class="hover:underline">
+                        <span class="font-semibold text-gray-900 dark:text-white">799</span>
+                        <spa>Following</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline">
+                        <span class="font-semibold text-gray-900 dark:text-white">3,758</span>
+                        <span>Followers</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div data-popper-arrow></div>
+    </div>
+
+    {% endfor %}
+    
+</div>
+
+{% endblock content %}
