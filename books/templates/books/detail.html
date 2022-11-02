@@ -15,6 +15,10 @@
   <div>
   {{book.price_as_str}} 
   </div>
+  <div>
+    views :{{total_views}}
+
+  </div>
   {% for image in books.images.all %}
   <img src="{{image.image.url}}" alt="{{image.alt}}" />
   {% endfor %} {% comment %} like add remove {% endcomment %}

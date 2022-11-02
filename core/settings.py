@@ -243,6 +243,10 @@ CLOUDINARY_STORAGE = {
 COMPRESS_ROOT = BASE_DIR / 'static'
 COMPRESS_ENABLED = True
 STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
+#redis settings 
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB=0
 
 if os.getenv("DEVELOPMENT_MODE")=='false':
     from .production_settings import *

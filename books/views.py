@@ -4,17 +4,22 @@ from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.contrib.auth.decorators import login_required
 from actions.utils import create_action
+from django.db.models import Count
 
 from common.decorators import hx_required
 from common.http_helpers import is_hx_request
 
-
 from .models import Book
 from .forms import BookAddForm,BookImageForm
+import redis
+from django.conf import settings
+
+r = redis.Redis(host=settings.REDIS_HOST,port=settings.REDIS_PORT,db=settings.REDIS_DB)
 
 # Create your views here.
 def books_list_view(request):
-    books = Book.objects.all()
+    # books = Book.objects.annotate(total_likes=Count("likes")).order_by('-total_likes')
+    books = Book.objects.all().order_by("-total_likes")
     template_name = 'books/list.html'
     paginator = Paginator(books,3)
     page = request.GET.get('page')
@@ -34,11 +39,25 @@ def books_list_view(request):
         'books':books
     }
     return render(request,template_name,context)
+
+@login_required
 def book_detail_view(request,slug):
     book = get_object_or_404(Book,slug=slug)
+    ##increase views
+    total_views = r.incr(f"book:{book.id}:views")
+    ##increase ranking
+    r.zincrby("books_ranking",1,book.id)
+    ##getting books by rank
+    books_ranking = r.zrange("books_ranking",0,-1,desc=True)[:10]
+    books_ranking_ids = [int(id) for id in books_ranking]
+    most_visited = list(Book.objects.filter(id__in=books_ranking_ids))
+    most_visited.sort(key=lambda x:books_ranking_ids.index(x.id))
+    print(most_visited)
+
     context ={
         'book':book,
-        'liked':request.user.profile in book.likes.all()
+        'liked':request.user.profile in book.likes.all(),
+        'total_views':total_views
     }
     return render(request,'books/detail.html',context)
 

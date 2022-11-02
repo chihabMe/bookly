@@ -21,6 +21,10 @@ class Book(models.Model):
     price_as_str = models.CharField(max_length=150)
     owner  = models.ForeignKey(Profile,related_name='books',on_delete=models.CASCADE)
     likes = models.ManyToManyField(Profile,related_name='liked_books')
+    total_likes = models.PositiveIntegerField(default=0,db_index=True)
+    created = models.DateTimeField(auto_now_add=True)
+    update = models.DateTimeField(auto_now=True)
+
     
 
     def get_absolute_url(self):
@@ -29,6 +33,8 @@ class Book(models.Model):
 
     def __str__(self)->str:
         return self.title
+    class Meta:
+        ordering = ("-created",)
 
 def upload_image_to(instance,filename)->str:
     return instance.book.owner.user.username+"/books/images/"+filename

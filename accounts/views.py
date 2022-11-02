@@ -8,9 +8,11 @@ from django.urls import reverse
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib import messages
 from accounts.models import Contact, Profile
+from actions.models import Action
 from actions.utils import create_action
 from common.decorators import hx_required
 from common.http_helpers import is_hx_request
+import time
 
 # from helpes.email_generator import email_generator
 from .forms import LoginForm, ProfileEditForm,UserCreationForm, UserEditForm
@@ -65,23 +67,29 @@ def profile_follow(request,username):
     template_name = 'profile/partials/un_follow_btn.html'
     if  profile in request.user.profile.following.all():
         # request.user.profile.following.remove(profile)
+        create_action(request.user.profile,f'you are not  following {profile.user.username} anymore',profile)
         Contact.objects.filter(user_from=request.user.profile,user_to=profile).delete()
-        create_action(request.user.profile,f'you started following {profile.user.username}',profile)
         template_name='profile/partials/follow_btn.html'
     else:
-        create_action(request.user.profile,f'you are not  following {profile.user.username} anymore',profile)
+        create_action(request.user.profile,f'you started following {profile.user.username}',profile)
         Contact.objects.create(user_from=request.user.profile,user_to=profile)
     return render(request,template_name,{})
 
 @login_required
 def profile_view(request,username=None):
     template_name = 'profile/detail.html'
+    following_ids = request.user.profile.following.values_list('id',flat=True).exclude()
+    # actions = Action.objects.exclude(profile__id=request.user.profile.id).filter(profile_id__in=following_ids)[:10]
+    actions = Action.objects.filter(profile_id__in=following_ids)[:10]
+    actions = actions.select_related("profile","profile__user")
     if username:
         profile = get_object_or_404(Profile,user__username=username)
     else :
         profile = request.user.profile
     context = {
-        "profile":profile
+        "profile":profile,
+        'actions':actions
+
     }
     return render(request,template_name,context)
 
